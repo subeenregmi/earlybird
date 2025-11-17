@@ -1,4 +1,5 @@
 use std::{
+    fmt::format,
     fs::{File, create_dir},
     io::{Read, Seek, Write},
     path::Path,
@@ -97,8 +98,10 @@ fn main() {
         Err(e) => panic!("error trying to turn day into u8, {}", e),
     };
 
-    let left_padding = ((4 * 7) / 2) - (month.name().len() / 2);
-    println!("{:<left_padding$}{}", "", month.name());
+    let header = format!("{} {}", month.name(), current_time.year());
+
+    let left_padding = ((4 * 7) / 2) - (header.len() / 2);
+    println!("{:<left_padding$}{}", "", header);
 
     let days: [Weekday; 7] = [
         Weekday::Mon,
