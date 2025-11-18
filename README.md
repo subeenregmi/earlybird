@@ -1,2 +1,3 @@
 # earlybird
-small wakeup tracker
+
+small wakeup tracker that helps me keep a consistent wakeup routine
