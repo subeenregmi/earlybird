@@ -1,7 +1,6 @@
 use std::{
-    fmt::format,
     fs::{File, create_dir},
-    io::{Read, Seek, Write},
+    io::{Read, Write},
     path::Path,
 };
 
