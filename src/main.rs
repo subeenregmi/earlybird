@@ -4,7 +4,7 @@ use std::{
     path::Path,
 };
 
-use chrono::{DateTime, Datelike, Local, Month, Weekday};
+use chrono::{DateTime, Datelike, Days, Local, Month, Weekday};
 
 #[derive(Debug)]
 struct LoggedTimes {
@@ -82,7 +82,7 @@ fn main() {
 
     let current_time = Local::now();
 
-    let month_num = match u8::try_from(current_time.month0()) {
+    let month_num = match u8::try_from(current_time.month()) {
         Ok(n) => n,
         Err(e) => panic!("error trying to turn month into u8, {}", e),
     };
@@ -118,13 +118,23 @@ fn main() {
 
     println!();
 
+    let left_padding = 4 * (1 + current_time.weekday().num_days_from_monday()) % (4 * 7);
+    let left_padding = usize::try_from(left_padding).unwrap();
+
+    print!("{:<left_padding$}", "");
+
     for i in 1..=current_time.num_days_in_month() {
         if i == day_num {
             print!("\x1b[1;91m{i:<4}\x1b[0m")
         } else {
             print!("{i:<4}");
         }
-        if i % 7 == 0 {
+        if current_time
+            .checked_add_days(Days::new(u64::try_from(i).unwrap()))
+            .unwrap()
+            .weekday()
+            == Weekday::Sun
+        {
             println!()
         }
     }
